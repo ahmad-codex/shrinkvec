@@ -12,7 +12,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
       - run: uv run --only-group dev ruff check src tests benchmarks
       - run: uv run --only-group dev ruff format --check src tests benchmarks
@@ -23,7 +23,7 @@ jobs:
       matrix:
         python: ["3.10", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: ${{ matrix.python }}
@@ -33,7 +33,7 @@ jobs:
     name: crosscheck (rabitqlib, turbovec)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
         with:
           python-version: "3.12"
@@ -43,7 +43,7 @@ jobs:
     name: postgres (pgvector + VectorChord)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
       - name: Start Postgres with pgvector and VectorChord
         run: |
@@ -69,7 +69,7 @@ jobs:
     name: demo image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
       - run: docker build -f Dockerfile.demo -t shrinkvec:demo .
       - name: Short run of the demo
         run: docker run --rm -e SHRINKVEC_ROWS=4000 -e SHRINKVEC_QUERIES=100 -e SHRINKVEC_NO_SERVE=1 shrinkvec:demo
