@@ -1,0 +1,23 @@
+# One command: real OpenAI embeddings, every compression option, real indexes, one report.
+#
+#   docker run --rm -p 8080:8080 ghcr.io/ahmad-codex/shrinkvec:demo
+
+FROM python:3.12-slim AS data
+RUN pip install --no-cache-dir numpy pyarrow
+COPY docker/prepare_demo.py /prepare_demo.py
+RUN python /prepare_demo.py 25500 /dbpedia-openai.npy
+
+FROM ghcr.io/tensorchord/vchord-postgres:pg18-v1.1.1
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends python3 python3-venv \
+ && rm -rf /var/lib/apt/lists/*
+RUN python3 -m venv /opt/shrinkvec
+ENV PATH="/opt/shrinkvec/bin:$PATH" SHRINKVEC_ROWS=25000 SHRINKVEC_QUERIES=500
+COPY pyproject.toml README.md LICENSE /src/
+COPY src /src/src
+RUN pip install --no-cache-dir "/src[pg]" && rm -rf /src
+COPY --from=data /dbpedia-openai.npy /demo/dbpedia-openai.npy
+COPY docker/demo.sh /usr/local/bin/shrinkvec-demo
+RUN chmod +x /usr/local/bin/shrinkvec-demo
+EXPOSE 8080
+ENTRYPOINT ["shrinkvec-demo"]
