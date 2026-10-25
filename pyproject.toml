@@ -1,0 +1,51 @@
+[project]
+name = "shrinkvec"
+version = "0.1.0"
+description = "Find out how much your embeddings can shrink in Postgres before search gets worse, on your own data."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Ahmad Shawar" }]
+requires-python = ">=3.10"
+keywords = ["pgvector", "postgres", "vector-search", "quantization", "embeddings", "rabitq", "turboquant", "benchmark"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Topic :: Database",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = ["numpy>=1.26"]
+
+[project.optional-dependencies]
+pg = ["psycopg[binary]>=3.2", "pgvector>=0.3"]
+datasets = ["h5py>=3.10", "pyarrow>=15"]
+
+[project.scripts]
+shrinkvec = "shrinkvec.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/ahmad-codex/shrinkvec"
+Issues = "https://github.com/ahmad-codex/shrinkvec/issues"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6", "psycopg[binary]>=3.2", "pgvector>=0.3", "h5py>=3.10", "pyarrow>=15"]
+crosscheck = ["rabitqlib>=0.7; python_version >= '3.11'", "turbovec>=1.1"]
+
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "NPY", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/shrinkvec/report.py" = ["E501"]  # HTML and SVG templates read better on one line
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["crosscheck: compares against the reference libraries (uv sync --group crosscheck)"]
