@@ -60,7 +60,7 @@ jobs:
             --pipelines 'float32,halfvec,rabitq-4,tq-mse-4,rabitq-1>float32' --out report
           uv run shrinkvec lab --file ci.npy --queries 300 --pipelines float32,halfvec --min-recall 0.98 --out floor
           test -s report/report.html && test -s report/results.json
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: ci-report
           path: report
