@@ -1,0 +1,22 @@
+name: Feature request
+description: A codec, an index type, a data source or a report feature
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The decision it would help with
+      description: What you are trying to choose or measure, and what is missing today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: For a codec, link the paper or the reference implementation it should match.
+  - type: checkboxes
+    id: help
+    attributes:
+      label: Contribution
+      options:
+        - label: I would like to work on this

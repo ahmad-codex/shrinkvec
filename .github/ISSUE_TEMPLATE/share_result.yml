@@ -1,0 +1,31 @@
+name: Share a result
+description: Ran shrinkvec on an embedding model that is not in the README? Share the numbers.
+labels: [result]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Compression behaves differently per embedding model, so results on other models help
+        everyone choose. Share only what you are allowed to share; the vectors themselves are not needed.
+  - type: input
+    id: model
+    attributes:
+      label: Embedding model and dimensions
+      placeholder: e.g. text-embedding-3-small, 1536
+    validations:
+      required: true
+  - type: input
+    id: data
+    attributes:
+      label: Data, size and metric
+      placeholder: e.g. 500k support tickets, cosine
+    validations:
+      required: true
+  - type: textarea
+    id: results
+    attributes:
+      label: results.md
+      description: Paste the results.md that shrinkvec wrote next to the report.
+      render: markdown
+    validations:
+      required: true

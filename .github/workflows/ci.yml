@@ -1,0 +1,75 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - run: uv run --only-group dev ruff check src tests benchmarks
+      - run: uv run --only-group dev ruff format --check src tests benchmarks
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.10", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - run: uv run pytest -m "not crosscheck"
+
+  crosscheck:
+    name: crosscheck (rabitqlib, turbovec)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.12"
+      - run: uv run --group crosscheck pytest -m crosscheck
+
+  postgres:
+    name: postgres (pgvector + VectorChord)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/setup-uv@v7
+      - name: Start Postgres with pgvector and VectorChord
+        run: |
+          docker run -d --name pg -e POSTGRES_PASSWORD=ci -p 5432:5432 \
+            ghcr.io/tensorchord/vchord-postgres:pg18-v1.1.1 -c shared_preload_libraries=vchord
+          until docker exec pg pg_isready -U postgres; do sleep 1; done
+      - name: Lab and real indexes on clustered vectors, with recall floors
+        env:
+          SHRINKVEC_DSN: postgresql://postgres:ci@localhost:5432/postgres
+        run: |
+          uv run python -c "import numpy as np; r=np.random.default_rng(0); c=r.standard_normal((40,128)); \
+            np.save('ci.npy', (c[r.integers(0,40,12000)]*0.6+r.standard_normal((12000,128))).astype(np.float32))"
+          uv run shrinkvec run --file ci.npy --queries 300 \
+            --pipelines 'float32,halfvec,rabitq-4,tq-mse-4,rabitq-1>float32' --out report
+          uv run shrinkvec lab --file ci.npy --queries 300 --pipelines float32,halfvec --min-recall 0.98 --out floor
+          test -s report/report.html && test -s report/results.json
+      - uses: actions/upload-artifact@v5
+        with:
+          name: ci-report
+          path: report
+
+  demo:
+    name: demo image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: docker build -f Dockerfile.demo -t shrinkvec:demo .
+      - name: Short run of the demo
+        run: docker run --rm -e SHRINKVEC_ROWS=4000 -e SHRINKVEC_QUERIES=100 -e SHRINKVEC_NO_SERVE=1 shrinkvec:demo

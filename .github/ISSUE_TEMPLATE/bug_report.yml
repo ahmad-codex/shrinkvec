@@ -1,0 +1,37 @@
+name: Bug report
+description: Something does not work, or a number looks wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what happened instead. Wrong-looking recall counts as a bug.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      description: The exact shrinkvec command. Leave the connection string out; it is never needed here.
+      render: shell
+      placeholder: shrinkvec lab --file vectors.npy --pipelines rabitq-1,tq-mse-4
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Output or traceback
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: shrinkvec version
+      placeholder: shrinkvec --version
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Python, OS, and Postgres with extension versions if relevant
+      placeholder: Python 3.12, Ubuntu 24.04, PostgreSQL 18 + pgvector 0.8.2 + VectorChord 1.1.1

@@ -1,0 +1,26 @@
+name: greet
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v3
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_message: |
+            Thanks for opening your first issue here. The exact command, the shrinkvec version and the
+            results.md (when a number looks wrong) help the most. Please keep connection strings out of it.
+          pr_message: |
+            Thanks for your first pull request. CI runs ruff, the tests on Python 3.10 to 3.13, the
+            cross-checks against rabitqlib and turbovec, a real Postgres run with pgvector and VectorChord,
+            and the demo image. CONTRIBUTING.md lists what reviews check.
