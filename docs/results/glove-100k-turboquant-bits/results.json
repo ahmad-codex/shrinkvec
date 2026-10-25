@@ -1,0 +1,136 @@
+{
+  "meta": {
+    "source": "glove-100",
+    "note": "GloVe word vectors, 1.18M words (ann-benchmarks). PDDL (GloVe).",
+    "rows": 100000,
+    "dims": 100,
+    "metric": "cosine",
+    "queries": 1000,
+    "k": 10,
+    "seed": 42,
+    "created": "2026-10-25 06:41 UTC",
+    "command": "shrinkvec lab --dataset glove-100 -n 100000 --pipelines tq-prod-9,tq-prod-5,tq-prod-4,tq-prod-3,tq-mse-8,tq-mse-5,tq-mse-4,tq-mse-3,tq-mse-2 --out docs/results/glove-100k-turboquant-bits",
+    "machine": "Windows AMD64, 12 threads, Python 3.12.13",
+    "version": "0.1.0"
+  },
+  "target": 0.95,
+  "lab": [
+    {
+      "pipeline": "tq-prod-9",
+      "label": "TurboQuant 9-bit (prod)",
+      "recall": 0.9826,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 117.0,
+      "total_bytes": 117.0,
+      "compression": 3.4188034188034186,
+      "encode_seconds": 3.3295760999972117
+    },
+    {
+      "pipeline": "tq-prod-5",
+      "label": "TurboQuant 5-bit (prod)",
+      "recall": 0.8055999999999999,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 67.0,
+      "total_bytes": 67.0,
+      "compression": 5.970149253731344,
+      "encode_seconds": 1.2190371000033338
+    },
+    {
+      "pipeline": "tq-prod-4",
+      "label": "TurboQuant 4-bit (prod)",
+      "recall": 0.6668999999999999,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 55.0,
+      "total_bytes": 55.0,
+      "compression": 7.2727272727272725,
+      "encode_seconds": 0.6824803000054089
+    },
+    {
+      "pipeline": "tq-prod-3",
+      "label": "TurboQuant 3-bit (prod)",
+      "recall": 0.47809999999999997,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 42.0,
+      "total_bytes": 42.0,
+      "compression": 9.523809523809524,
+      "encode_seconds": 0.4695270000011078
+    },
+    {
+      "pipeline": "tq-mse-8",
+      "label": "TurboQuant 8-bit (mse)",
+      "recall": 0.9890000000000001,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 104.0,
+      "total_bytes": 104.0,
+      "compression": 3.8461538461538463,
+      "encode_seconds": 0.5251776000004611
+    },
+    {
+      "pipeline": "tq-mse-5",
+      "label": "TurboQuant 5-bit (mse)",
+      "recall": 0.925,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 67.0,
+      "total_bytes": 67.0,
+      "compression": 5.970149253731344,
+      "encode_seconds": 2.365435700005037
+    },
+    {
+      "pipeline": "tq-mse-4",
+      "label": "TurboQuant 4-bit (mse)",
+      "recall": 0.8673,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 54.0,
+      "total_bytes": 54.0,
+      "compression": 7.407407407407407,
+      "encode_seconds": 0.3325814999989234
+    },
+    {
+      "pipeline": "tq-mse-3",
+      "label": "TurboQuant 3-bit (mse)",
+      "recall": 0.7532,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 42.0,
+      "total_bytes": 42.0,
+      "compression": 9.523809523809524,
+      "encode_seconds": 0.2352660000033211
+    },
+    {
+      "pipeline": "tq-mse-2",
+      "label": "TurboQuant 2-bit (mse)",
+      "recall": 0.5589999999999999,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 29.0,
+      "total_bytes": 29.0,
+      "compression": 13.793103448275861,
+      "encode_seconds": 0.18503939999936847
+    }
+  ],
+  "lab_recommendation": {
+    "target": 0.95,
+    "choice": {
+      "pipeline": "tq-mse-8",
+      "recall": 0.9890000000000001
+    },
+    "sql": "",
+    "reason": "tq-mse-8 keeps recall@10 at 0.989 with 104 bytes per vector to search (3.8x smaller than float32). In Postgres: pg_turbovec."
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "source": "glove-100",
+    "note": "GloVe word vectors, 1.18M words (ann-benchmarks). PDDL (GloVe).",
+    "rows": 1183514,
+    "dims": 100,
+    "metric": "cosine",
+    "queries": 1000,
+    "k": 10,
+    "seed": 42,
+    "created": "2026-10-24 21:07 UTC",
+    "command": "shrinkvec lab --dataset glove-100 --repeats 3 --out docs/results/glove-100",
+    "machine": "Windows AMD64, 12 threads, Python 3.12.13",
+    "version": "0.1.0"
+  },
+  "target": 0.95,
+  "lab": [
+    {
+      "pipeline": "float32",
+      "label": "Full precision (float32)",
+      "recall": 1.0,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 400,
+      "total_bytes": 400,
+      "compression": 1.0,
+      "encode_seconds": 0.010183299999880546
+    },
+    {
+      "pipeline": "halfvec",
+      "label": "Half precision (float16)",
+      "recall": 0.9994999999999999,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 200,
+      "total_bytes": 200,
+      "compression": 2.0,
+      "encode_seconds": 0.3796353999996427
+    },
+    {
+      "pipeline": "int8",
+      "label": "8-bit scalar, per-dimension range",
+      "recall": 0.9808999999999999,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 100.0,
+      "total_bytes": 100.0,
+      "compression": 4.0,
+      "encode_seconds": 0.7194291000005251
+    },
+    {
+      "pipeline": "tq-mse-4",
+      "label": "TurboQuant 4-bit (mse)",
+      "recall": 0.8550333333333334,
+      "recall_std": 0.003233161507461887,
+      "repeats": 3,
+      "candidate_recall": null,
+      "search_bytes": 54.0,
+      "total_bytes": 54.0,
+      "compression": 7.407407407407407,
+      "encode_seconds": 4.740769299998647
+    },
+    {
+      "pipeline": "tq-prod-4",
+      "label": "TurboQuant 4-bit (prod)",
+      "recall": 0.6306333333333333,
+      "recall_std": 0.0030746273486934057,
+      "repeats": 3,
+      "candidate_recall": null,
+      "search_bytes": 55.0,
+      "total_bytes": 55.0,
+      "compression": 7.2727272727272725,
+      "encode_seconds": 3.8707208999985596
+    },
+    {
+      "pipeline": "tq-mse-3",
+      "label": "TurboQuant 3-bit (mse)",
+      "recall": 0.7370666666666668,
+      "recall_std": 0.0017156145643276832,
+      "repeats": 3,
+      "candidate_recall": null,
+      "search_bytes": 42.0,
+      "total_bytes": 42.0,
+      "compression": 9.523809523809524,
+      "encode_seconds": 2.9497292999949423
+    },
+    {
+      "pipeline": "tq-mse-2",
+      "label": "TurboQuant 2-bit (mse)",
+      "recall": 0.5386,
+      "recall_std": 0.003290896534380889,
+      "repeats": 3,
+      "candidate_recall": null,
+      "search_bytes": 29.0,
+      "total_bytes": 29.0,
+      "compression": 13.793103448275861,
+      "encode_seconds": 2.3833116000023438
+    },
+    {
+      "pipeline": "rabitq-4",
+      "label": "RaBitQ 4-bit (extended)",
+      "recall": 0.8777333333333334,
+      "recall_std": 0.001123981020005796,
+      "repeats": 3,
+      "candidate_recall": null,
+      "search_bytes": 72.0,
+      "total_bytes": 72.0,
+      "compression": 5.555555555555555,
+      "encode_seconds": 37.188788500003284
+    },
+    {
+      "pipeline": "rabitq-1",
+      "label": "RaBitQ 1-bit",
+      "recall": 0.32939999999999997,
+      "recall_std": 0.002598076211353318,
+      "repeats": 3,
+      "candidate_recall": null,
+      "search_bytes": 24.0,
+      "total_bytes": 24.0,
+      "compression": 16.666666666666668,
+      "encode_seconds": 2.848058999996283
+    },
+    {
+      "pipeline": "binary",
+      "label": "1 sign bit per dimension, Hamming distance",
+      "recall": 0.13620000000000002,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": null,
+      "search_bytes": 13.0,
+      "total_bytes": 13.0,
+      "compression": 30.76923076923077,
+      "encode_seconds": 0.34931460000007064
+    },
+    {
+      "pipeline": "tq-mse-3>tq-mse-8",
+      "label": "TurboQuant 3-bit (mse), rerank top 100 with TurboQuant 8-bit (mse)",
+      "recall": 0.9861333333333334,
+      "recall_std": 0.0002516611478423821,
+      "repeats": 3,
+      "candidate_recall": 0.9987333333333334,
+      "search_bytes": 42.0,
+      "total_bytes": 146.0,
+      "compression": 9.523809523809524,
+      "encode_seconds": 9.0664958999987
+    },
+    {
+      "pipeline": "rabitq-1>float32",
+      "label": "RaBitQ 1-bit, rerank top 100 with Full precision (float32)",
+      "recall": 0.7357,
+      "recall_std": 0.0008717797887081661,
+      "repeats": 3,
+      "candidate_recall": 0.7357,
+      "search_bytes": 24.0,
+      "total_bytes": 424.0,
+      "compression": 16.666666666666668,
+      "encode_seconds": 2.8582422999961636
+    },
+    {
+      "pipeline": "binary>float32",
+      "label": "1 sign bit per dimension, Hamming distance, rerank top 100 with Full precision (float32)",
+      "recall": 0.3476,
+      "recall_std": 0.0,
+      "repeats": 1,
+      "candidate_recall": 0.3476,
+      "search_bytes": 13.0,
+      "total_bytes": 413.0,
+      "compression": 30.76923076923077,
+      "encode_seconds": 0.3594978999999512
+    }
+  ],
+  "lab_recommendation": {
+    "target": 0.95,
+    "choice": {
+      "pipeline": "tq-mse-3>tq-mse-8",
+      "recall": 0.9861333333333334
+    },
+    "sql": "",
+    "reason": "tq-mse-3>tq-mse-8 keeps recall@10 at 0.986 with 42 bytes per vector to search (9.5x smaller than float32). The rerank reads more precise data for each candidate, so 146 bytes per vector stay stored; only the searched part has to be in memory. In Postgres: pg_turbovec."
+  }
+}
