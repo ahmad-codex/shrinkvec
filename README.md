@@ -199,6 +199,9 @@ Common options: `--dataset`, `--file`, `--table`/`--column`, `-n`, `--queries`, 
 Every run writes `report.html` (self-contained, charts, light and dark), `results.md` and
 `results.json`.
 
+From Python or a notebook, `run_lab`, `make_codec` and `run_pg` take NumPy arrays directly: see
+[docs/python.md](./docs/python.md).
+
 ## Development
 
 ```bash

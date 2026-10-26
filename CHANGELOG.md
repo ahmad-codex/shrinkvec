@@ -6,6 +6,11 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- [Python API page](./docs/python.md) for `run_lab`, `make_codec` and `run_pg`, with examples that
+  run as a test.
+
 ## [0.1.0] - 2026-10-25
 
 ### Added
