@@ -2,7 +2,7 @@
 #
 #   docker run --rm -p 8080:8080 ghcr.io/ahmad-codex/shrinkvec:demo
 
-FROM python:3.12-slim AS data
+FROM python:3.15-slim AS data
 RUN pip install --no-cache-dir numpy pyarrow
 COPY docker/prepare_demo.py /prepare_demo.py
 RUN python /prepare_demo.py 25500 /dbpedia-openai.npy
